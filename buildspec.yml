@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - zip -r lambda.zip .
+
+  post_build:
+    commands:
+      - aws s3 cp lambda.zip s3://saabucket11/lambda.zip
+      - aws lambda update-function-code \
+          --function-name mylambda_git \
+          --s3-bucket saabucket11 \
+          --s3-key lambda.zip
+
+artifacts:
+  files:
+    - lambda.zip
