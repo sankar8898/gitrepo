@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo "Zipping Lambda function..."
+      - zip -r lambda.zip .  # You can change this to folder name
+
+  post_build:
+    commands:
+      - echo "Updating Lambda function..."
+      - aws lambda update-function-code \
+          --function-name myLambdaFunction \
+          --zip-file fileb://lambda.zip
+artifacts:
+  files:
+    - lambda.zip
